@@ -14,22 +14,31 @@ import Protagonist from './routes/protagonist/Protagonist';
 import Detail from './routes/post/Detail';
 import Map from './routes/map/Map';
 import ProtectedRoute from './components/ProtectedRoute';
+import useAxios from "./hooks/useAxios";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  const { data, loading, error } = useAxios('http://localhost:8090/hello-world', { withCredentials: true });
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080', { withCredentials: true });
-        setIsAuthenticated(response.status === 200);
-      } catch (error) {
-        setIsAuthenticated(false);
-      }
-    };
-
-    checkAuth();
-  }, []);
+    if (data && data.status === 200) {
+      setIsAuthenticated(true);
+    } else if (error) {
+      setIsAuthenticated(false);
+    }
+  }, [data,error]);
+  // useEffect(() => {
+  //
+  //   const checkAuth = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:8080', { withCredentials: true });
+  //       setIsAuthenticated(response.status === 200);
+  //     } catch (error) {
+  //       setIsAuthenticated(false);
+  //     }
+  //   };
+  //
+  //   checkAuth();
+  // }, []);
 
   return (
     <div className="App">
