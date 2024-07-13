@@ -15,6 +15,7 @@ import Detail from './routes/post/Detail';
 import Map from './routes/map/Map';
 import ProtectedRoute from './components/ProtectedRoute';
 import useAxios from "./hooks/useAxios";
+import Write from './routes/post/Write';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -52,6 +53,7 @@ function App() {
               element={<ProtectedRoute isAuthenticated={isAuthenticated}><Main /></ProtectedRoute>}
             /> */}
             <Route path="/posts" element={<Main />} />
+            <Route path="/posts/write" element={<Write />} />
             <Route path="/poke" element={<Ranking/>} />
             <Route path="/protagonist" element={<Protagonist />} />
             <Route path="/posts/1" element={<Detail />} />

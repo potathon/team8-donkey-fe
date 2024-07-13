@@ -1,0 +1,45 @@
+/* WritePostPage.module.scss */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  input[type="text"],
+  textarea {
+    width: 100%;
+    margin: 10px auto;
+    padding: 10px;
+    border: 0px;
+    border-radius: 5px;
+    display: block;
+  }
+  
+  textarea {
+    width: 95%;
+    height: 300px;
+    white-space: "pre-wrap";
+  }
+  
+  input[type="file"] {
+    margin: 10px auto;
+    padding: 10px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #999999;
+    color: white;
+    cursor: pointer;
+    margin: 10px 0 0 10px;
+  }
+  
+  .message {
+    color: green;
+    margin-top: 10px;
+  }
+  
