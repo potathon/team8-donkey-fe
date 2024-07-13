@@ -18,7 +18,7 @@ import useAxios from "./hooks/useAxios";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { data, loading, error } = useAxios('http://localhost:8090/hello-world', { withCredentials: true });
+  const { data, error, loading } = useAxios('http://localhost:8090/hello-world',{ withCredentials :true});
   useEffect(() => {
     if (data && data.status === 200) {
       setIsAuthenticated(true);
