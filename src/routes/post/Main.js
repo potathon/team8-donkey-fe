@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './Main.module.scss';
 
 const posts = [
@@ -34,9 +34,42 @@ const posts = [
     comments: 10,
     image: 'https://s1.1zoom.me/prev/441/440047.jpg'
   },
+  {
+    id: 5,
+    content: '창천이 있는 곳에 내가 있고',
+    views: 123,
+    likes: 5,
+    comments: 10,
+    image: 'https://s1.1zoom.me/prev/524/Fantastic_world_Planets_523836_600x200.jpg'
+  },
+  {
+    id: 6,
+    content: '황천의 문 열리는 곳에 그대 있으리',
+    views: 123,
+    likes: 5,
+    comments: 10,
+    image: 'https://s1.1zoom.me/prev/522/Moon_Night_Clouds_521333_600x200.jpg'
+  },
+  {
+    id: 7,
+    content: '나와라 신의 번개여!',
+    views: 123,
+    likes: 5,
+    comments: 10,
+    image: 'https://s1.1zoom.me/prev/490/489302.jpg'
+  },
+  {
+    id: 8,
+    content: '인디그네이션!!',
+    views: 123,
+    likes: 5,
+    comments: 10,
+    image: 'https://s1.1zoom.me/prev/441/440047.jpg'
+  },
 ];
 
 function Main() {
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -53,6 +86,24 @@ function Main() {
       return () => clearInterval(scrollInterval);
     }
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScrollToTop(true);
+      } else {
+        setShowScrollToTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
 
     return (
         <div className={styles.container}>
@@ -79,7 +130,7 @@ function Main() {
                 </div>
                 ))}
             </section>
-            <div className={styles.pagination}>
+            {/* <div className={styles.pagination}>
                 <button disabled>&lt;</button>
                 <button>1</button>
                 <button>2</button>
@@ -87,7 +138,12 @@ function Main() {
                 <button>4</button>
                 <button>5</button>
                 <button>&gt;</button>
-            </div>
+            </div> */}
+            {showScrollToTop && (
+              <button className={styles.scrollToTopButton} onClick={scrollToTop}>
+                ↑ 맨 위로
+              </button>
+            )}
         </div>
       );
     }
