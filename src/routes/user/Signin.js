@@ -10,9 +10,14 @@ function Signin() {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:8080/sign-in', {
-        email,
+        username : email,
         password
-      }, { withCredentials: true });
+      }, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       // 서버 응답이 성공적일 경우
       if (response.status === 200) {
         // 로그인 성공 후 상태 업데이트 또는 리다이렉트
@@ -35,7 +40,7 @@ function Signin() {
             <label>아이디</label>
             <input 
               id="email" 
-              type="email" 
+              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)} 
               required/>
