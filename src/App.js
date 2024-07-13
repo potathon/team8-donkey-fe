@@ -15,10 +15,11 @@ import Detail from './routes/post/Detail';
 import Map from './routes/map/Map';
 import ProtectedRoute from './components/ProtectedRoute';
 import useAxios from "./hooks/useAxios";
+import Write from './routes/post/Write';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { data, error, loading } = useAxios('http://localhost:8090/hello-world',{ withCredentials :true});
+  const { data, error, loading } = useAxios('http://localhost:8080',{ withCredentials :true});
   useEffect(() => {
     if (data && data.status === 200) {
       setIsAuthenticated(true);
@@ -52,6 +53,7 @@ function App() {
               element={<ProtectedRoute isAuthenticated={isAuthenticated}><Main /></ProtectedRoute>}
             /> */}
             <Route path="/posts" element={<Main />} />
+            <Route path="/posts/write" element={<Write />} />
             <Route path="/poke" element={<Ranking/>} />
             <Route path="/protagonist" element={<Protagonist />} />
             <Route path="/posts/1" element={<Detail />} />

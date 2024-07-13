@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import styles from './Map.module.scss';
 
@@ -9,6 +9,7 @@ function Map() {
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
   const [infowindow, setInfowindow] = useState(null);
+  const markerPositionRef = useRef(null);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -70,40 +71,17 @@ function Map() {
     };
   }, []);
 
-  const handleMarkerNameSubmit = async (e) => {
-    if (e.key === 'Enter' && e.target.value.trim() !== '') {
-      const currentDate = new Date().toISOString();
-      const id = Date.now(); // id를 현재 시간의 타임스탬프로 설정
-
-      const markerData = {
-        id,
-        name: e.target.value,
-        position: markerPosition,
-        date: currentDate
-      };
-      try {
-        const response = await axios.post('http://localhost:8080/api/markers', markerData, { withCredentials: true });
-        if (response.status === 200) {
-          alert('마커가 등록되었습니다.');
-          setMarkerName('');
-          setIsMarkerCreated(false);
-          document.getElementById('createMarkerBtn').innerText = '마커 생성';
-          if (infowindow) infowindow.close();
-        }
-      } catch (error) {
-        console.error('마커 등록 실패:', error);
-        alert('마커 등록 실패');
-      }
-    }
-  };
-
   const handleCreateMarker = () => {
     if (!isMarkerCreated) {
       const markerPosition = map.getCenter(); // 지도 중심 좌표를 가져옴
+      const position = { lat: markerPosition.getLat(), lng: markerPosition.getLng() };
+      markerPositionRef.current = position;
+
       const marker = new window.kakao.maps.Marker({
         position: markerPosition,
         draggable: true // 마커를 드래그 가능하도록 설정
       });
+      console.log(markerPosition);
       marker.setMap(map);
       setMarker(marker);
 
@@ -128,6 +106,32 @@ function Map() {
       document.getElementById('createMarkerBtn').innerText = '마커 등록';
     }
   };
+  const handleMarkerNameSubmit = async (e) => {
+    if (e.key === 'Enter' && e.target.value.trim() !== '') {
+      const id = Date.now(); // id를 현재 시간의 타임스탬프로 설정
+
+      const markerData = {
+        id,
+        name: e.target.value,
+        position: markerPositionRef.current,
+      };
+      console.log(markerData);
+      try {
+        const response = await axios.post('http://localhost:8080/marker', markerData, { withCredentials: true });
+        if (response.status === 200) {
+          alert('마커가 등록되었습니다.');
+          setMarkerName('');
+          setIsMarkerCreated(false);
+          document.getElementById('createMarkerBtn').innerText = '마커 생성';
+          if (infowindow) infowindow.close();
+        }
+      } catch (error) {
+        console.error('마커 등록 실패:', error);
+        alert('마커 등록 실패');
+      }
+    }
+  };
+
   return (
     <div className={styles.container}>
       <main className={styles.mainContent}>

@@ -13,8 +13,7 @@ const post = {
   image: 'https://via.placeholder.com/400',
   views: 123,
   likes: 5,
-  comments: 10,
-  author: '닉네임'
+  comments: 10
 };
 
 function Detail() {
