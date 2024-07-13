@@ -80,7 +80,7 @@ function Map() {
         position: markerPosition,
       };
       try {
-        const response = await axios.post('http://localhost:8080/api/markers', markerData, { withCredentials: true });
+        const response = await axios.post('http://localhost:8080/marker', markerData, { withCredentials: true });
         if (response.status === 200) {
           alert('마커가 등록되었습니다.');
           setMarkerName('');
