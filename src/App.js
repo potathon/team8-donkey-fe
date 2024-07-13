@@ -19,7 +19,7 @@ import Write from './routes/post/Write';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { data, error, loading } = useAxios('http://localhost:8090/hello-world',{ withCredentials :true});
+  const { data, error, loading } = useAxios('http://localhost:8080',{ withCredentials :true});
   useEffect(() => {
     if (data && data.status === 200) {
       setIsAuthenticated(true);

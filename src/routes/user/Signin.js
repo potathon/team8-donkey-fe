@@ -9,7 +9,7 @@ function Signin() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/login', {
+      const response = await axios.post('http://localhost:8080/sign-in', {
         email,
         password
       }, { withCredentials: true });
