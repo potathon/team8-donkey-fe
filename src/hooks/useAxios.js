@@ -5,7 +5,7 @@ import axios from 'axios';
  *
  *
  * ex)
- * const { data, loading, error } = useAxios('https://api.example.com/data', {
+ * const { data, error, loading } = useAxios('https://api.example.com/data', {
  *     method: 'POST',
  *     headers: {
  *         'Content-Type': 'application/json',
@@ -17,26 +17,30 @@ import axios from 'axios';
  * */
 const useAxios = (url, options = {}) => {
     const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [loading, setIsLoading] = useState(true);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
             try {
-                const response = await axios(url, options);
-                setData(response.data);
+                await axios(url,options)
+                    .then(res => {
+                        setData(res.data);
+                    })
+                    .finally(() => {
+                        setIsLoading(false);
+                    });
             } catch (err) {
                 setError(err);
-            } finally {
-                setLoading(false);
+                alert(err);
             }
         };
+        if (loading) {
+            fetchData();
+        }
+    }, [url,options]);
 
-        fetchData();
-    }, [url, options]);
-
-    return { data, loading, error };
+    return { data, error, loading };
 };
 
 export default useAxios;
