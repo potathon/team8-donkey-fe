@@ -3,7 +3,6 @@ import axios from 'axios';
 import styles from './Map.module.scss';
 
 function Map() {
-  const [markerPosition, setMarkerPosition] = useState(null);
   const [markerName, setMarkerName] = useState('');
   const [isMarkerCreated, setIsMarkerCreated] = useState(false);
   const [map, setMap] = useState(null);
@@ -71,41 +70,6 @@ function Map() {
     };
   }, []);
 
-  const handleCreateMarker = () => {
-    if (!isMarkerCreated) {
-      const markerPosition = map.getCenter(); // 지도 중심 좌표를 가져옴
-      const position = { lat: markerPosition.getLat(), lng: markerPosition.getLng() };
-      markerPositionRef.current = position;
-
-      const marker = new window.kakao.maps.Marker({
-        position: markerPosition,
-        draggable: true // 마커를 드래그 가능하도록 설정
-      });
-      console.log(markerPosition);
-      marker.setMap(map);
-      setMarker(marker);
-
-      const infowindow = new window.kakao.maps.InfoWindow({
-        content: '<input type="text" id="markerNameInput" placeholder="마커 이름을 입력하세요" style="width:150px;"/>',
-        removable: true
-      });
-      infowindow.open(map, marker);
-      setInfowindow(infowindow);
-
-      document.getElementById('markerNameInput').addEventListener('keydown', handleMarkerNameSubmit);
-
-      // 마커 드래그 이벤트 핸들러
-      window.kakao.maps.event.addListener(marker, 'dragend', () => {
-        const position = marker.getPosition();
-        setMarkerPosition({ lat: position.getLat(), lng: position.getLng() });
-        infowindow.setPosition(position); // 인포윈도우 위치 업데이트
-        console.log(`마커가 이동한 위치: ${position.getLat()}, ${position.getLng()}`);
-      });
-
-      setIsMarkerCreated(true);
-      document.getElementById('createMarkerBtn').innerText = '마커 등록';
-    }
-  };
   const handleMarkerNameSubmit = async (e) => {
     if (e.key === 'Enter' && e.target.value.trim() !== '') {
       const id = Date.now(); // id를 현재 시간의 타임스탬프로 설정
@@ -129,6 +93,41 @@ function Map() {
         console.error('마커 등록 실패:', error);
         alert('마커 등록 실패');
       }
+    }
+  };
+
+  const handleCreateMarker = () => {
+    if (!isMarkerCreated) {
+      const centerPosition = map.getCenter(); // 지도 중심 좌표를 가져옴
+      const position = { lat: centerPosition.getLat(), lng: centerPosition.getLng() };
+      markerPositionRef.current = position;
+
+      const marker = new window.kakao.maps.Marker({
+        position: centerPosition,
+        draggable: true // 마커를 드래그 가능하도록 설정
+      });
+      marker.setMap(map);
+      setMarker(marker);
+
+      const infowindow = new window.kakao.maps.InfoWindow({
+        content: '<input type="text" id="markerNameInput" placeholder="마커 이름을 입력하세요" style="width:150px;"/>',
+        removable: true
+      });
+      infowindow.open(map, marker);
+      setInfowindow(infowindow);
+
+      document.getElementById('markerNameInput').addEventListener('keydown', handleMarkerNameSubmit);
+
+      // 마커 드래그 이벤트 핸들러
+      window.kakao.maps.event.addListener(marker, 'dragend', () => {
+        const position = marker.getPosition();
+        markerPositionRef.current = { lat: position.getLat(), lng: position.getLng() };
+        infowindow.setPosition(position); // 인포윈도우 위치 업데이트
+        console.log(`마커가 이동한 위치: ${position.getLat()}, ${position.getLng()}`);
+      });
+
+      setIsMarkerCreated(true);
+      document.getElementById('createMarkerBtn').innerText = '마커 등록';
     }
   };
 
