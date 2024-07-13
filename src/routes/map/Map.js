@@ -72,14 +72,12 @@ function Map() {
 
   const handleMarkerNameSubmit = async (e) => {
     if (e.key === 'Enter' && e.target.value.trim() !== '') {
-      const currentDate = new Date().toISOString();
       const id = Date.now(); // id를 현재 시간의 타임스탬프로 설정
 
       const markerData = {
         id,
         name: e.target.value,
         position: markerPosition,
-        date: currentDate
       };
       try {
         const response = await axios.post('http://localhost:8080/api/markers', markerData, { withCredentials: true });
