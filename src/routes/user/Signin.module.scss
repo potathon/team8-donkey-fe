@@ -1,0 +1,62 @@
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 50px;
+}
+  
+.logo {
+    background-color: #ccc;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+  
+.form {
+    padding: 20px;
+}
+  
+.inputGroup {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+  
+label {
+    flex: 0 0 80px; /* 고정된 너비 */
+    text-align: left;
+    font-weight: bold;
+}
+  
+input {
+    flex: 1; /* 남은 공간을 차지 */
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* padding을 포함한 전체 너비 계산 */
+}
+  
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #ccc;
+    transition: background-color 0.3s ease;
+    
+    cursor: pointer;
+    &:hover {
+        background-color: #bbb;
+    }
+}
+  

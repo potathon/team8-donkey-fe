@@ -1,0 +1,27 @@
+/* Header.module.scss */
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .logo {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .nav {
+    margin-left: auto;
+    display: flex;
+  
+    a {
+      margin-left: 20px;
+      color: #007bff;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  
